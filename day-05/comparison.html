@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context vs Non-Context: Roadmap Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f172a;
+            --secondary: #1a2238;
+            --accent-1: #3b82f6;
+            --accent-2: #ec4899;
+            --accent-3: #10b981;
+            --accent-warn: #f59e0b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #1a2238 50%, #0f172a 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent-1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+
+        .insight-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border: 2px solid var(--accent-3);
+            color: var(--accent-3);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+
+        /* COMPARISON SECTION */
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .roadmap-box {
+            border-radius: 16px;
+            padding: 35px;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--border);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        .roadmap-box.non-contextual {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%);
+            border-color: #ef4444;
+        }
+
+        .roadmap-box.contextual {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border-color: var(--accent-3);
+        }
+
+        .roadmap-box.non-contextual {
+            animation-delay: 0.1s;
+        }
+
+        .roadmap-box.contextual {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .roadmap-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .non-contextual .roadmap-title {
+            color: #ef4444;
+        }
+
+        .contextual .roadmap-title {
+            color: var(--accent-3);
+        }
+
+        .roadmap-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .roadmap-content {
+            display: grid;
+            gap: 15px;
+        }
+
+        .content-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .non-contextual .content-item {
+            border-left-color: #ef4444;
+        }
+
+        .contextual .content-item {
+            border-left-color: var(--accent-3);
+        }
+
+        .content-label {
+            font-weight: 700;
+            display: block;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .non-contextual .content-label {
+            color: #fca5a5;
+        }
+
+        .contextual .content-label {
+            color: #86efac;
+        }
+
+        /* QUESTIONS SECTION */
+        .questions-section {
+            margin-bottom: 50px;
+        }
+
+        .questions-title {
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 35px;
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .question-card {
+            background: linear-gradient(135deg, rgba(26, 34, 56, 0.95) 0%, rgba(15, 23, 42, 0.85) 100%);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            animation: cardSlideUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .question-card:nth-child(1) { animation-delay: 0.2s; }
+        .question-card:nth-child(2) { animation-delay: 0.3s; }
+        .question-card:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes cardSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-card:hover {
+            border-color: var(--accent-1);
+            box-shadow: 0 20px 50px rgba(59, 130, 246, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .question-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .answer-section {
+            display: grid;
+            gap: 20px;
+        }
+
+        .answer-item {
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            border-left: 4px solid;
+        }
+
+        .answer-item.winner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border-left-color: var(--accent-3);
+        }
+
+        .answer-item.loser {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+            border-left-color: #ef4444;
+        }
+
+        .answer-label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .answer-item.winner .answer-label {
+            color: var(--accent-3);
+        }
+
+        .answer-item.loser .answer-label {
+            color: #fca5a5;
+        }
+
+        .answer-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .score {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        /* KEY INSIGHT */
+        .key-insight {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(236, 72, 153, 0.15) 100%);
+            border: 2px solid var(--accent-1);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin: 50px 0;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .insight-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .insight-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .insight-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .insight-highlight {
+            color: var(--accent-1);
+            font-weight: 700;
+        }
+
+        /* IMPACT TABLE */
+        .impact-section {
+            margin: 50px 0;
+        }
+
+        .impact-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .impact-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: linear-gradient(135deg, rgba(26, 34, 56, 0.9) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+        }
+
+        .impact-table th,
+        .impact-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .impact-table th {
+            background: rgba(59, 130, 246, 0.15);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent-1);
+        }
+
+        .impact-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .impact-table tr:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .non-context-col {
+            color: #fca5a5;
+            font-weight: 600;
+        }
+
+        .context-col {
+            color: #86efac;
+            font-weight: 600;
+        }
+
+        /* FOOTER SECTION */
+        .footer-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+            border: 2px solid var(--accent-3);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .footer-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .footer-text {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 25px;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-1);
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        /* PRINT OPTIMIZATION */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .btn, .cta-buttons {
+                display: none;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .question-card {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .roadmap-box {
+                padding: 25px;
+            }
+
+            .questions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .impact-table th,
+            .impact-table td {
+                padding: 12px;
+                font-size: 0.85rem;
+            }
+
+            .footer-section {
+                padding: 25px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>The Power of Context</h1>
+            <p class="header-subtitle">How Contextual Prompts Transform Generic Advice Into Personalized Mastery</p>
+            <span class="insight-badge">✨ AI-Powered Personalization</span>
+        </div>
+
+        <!-- COMPARISON BOXES -->
+        <div class="comparison-container">
+            <!-- NON-CONTEXTUAL -->
+            <div class="roadmap-box non-contextual">
+                <h2 class="roadmap-title">❌ Non-Contextual</h2>
+                <p class="roadmap-subtitle">Generic 30-day roadmap built without knowing your situation</p>
+                
+                <div class="roadmap-content">
+                    <div class="content-item">
+                        <span class="content-label">Assumption 1</span>
+                        "Everyone has the same amount of time"
+                    </div>
+                    <div class="content-item">
+                        <span class="content-label">Assumption 2</span>
+                        "One learning path fits all roles"
+                    </div>
+                    <div class="content-item">
+                        <span class="content-label">Assumption 3</span>
+                        "Same motivation strategy works for everyone"
+                    </div>
+                    <div class="content-item">
+                        <span class="content-label">Result</span>
+                        Comprehensive but misaligned with your life
+                    </div>
+                    <div class="content-item">
+                        <span class="content-label">Completion Rate</span>
+                        Lower - doesn't match your reality
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTEXTUAL -->
+            <div class="roadmap-box contextual">
+                <h2 class="roadmap-title">✅ Contextual</h2>
+                <p class="roadmap-subtitle">Personalized roadmap built WITH your situation in mind</p>
+                
+                <div class="roadmap-content">
+                    <div class="content-item">
+                        <span class="content-label">Question 1</span>
+                        "How much time do you have? (3 hrs? 10 hrs?)"
+                    </div>
+                    <div class="content-item">
+                        <span class="content-label">Question 2</span>
+                        "What's your role? (Student? Professional?)"
+                    </div>
+                    <div class="content-item">
+                        <span class="content-label">Question 3</span>
+                        "What's your goal? (Portfolio? Career? Impact?)"
+                    </div>
+                    <div class="content-item">
+                        <span class="content-label">Result</span>
+                        Specifically designed for YOUR constraints
+                    </div>
+                    <div class="content-item">
+                        <span class="content-label">Completion Rate</span>
+                        Higher - matches your actual life
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KEY INSIGHT -->
+        <div class="key-insight">
+            <div class="insight-icon">💡</div>
+            <h3 class="insight-title">The Core Discovery</h3>
+            <p class="insight-text">
+                Personalization isn't about <span class="insight-highlight">adding more information</span>. 
+                It's about <span class="insight-highlight">removing what doesn't apply</span> and 
+                <span class="insight-highlight">emphasizing what matters most for YOUR situation</span>.
+            </p>
+        </div>
+
+        <!-- THREE QUESTIONS SECTION -->
+        <div class="questions-section">
+            <h2 class="questions-title">The Three Critical Questions</h2>
+            
+            <div class="questions-grid">
+                <!-- QUESTION 1 -->
+                <div class="question-card">
+                    <div class="question-number">1</div>
+                    <div class="question-text">Which Roadmap Feels More Personalized?</div>
+                    
+                    <div class="answer-section">
+                        <div class="answer-item loser">
+                            <div class="answer-label">❌ Non-Contextual <span class="score">6/10</span></div>
+                            <div class="answer-text">
+                                Generic, treats everyone the same. Nice comprehensive guide, but doesn't acknowledge YOUR constraints. Doesn't know you're a student with 3 hours/week. Doesn't know your communication background is your strength.
+                            </div>
+                        </div>
+                        
+                        <div class="answer-item winner">
+                            <div class="answer-label">✅ Contextual <span class="score">9.5/10</span></div>
+                            <div class="answer-text">
+                                Asks specific questions about your role, time, and goals. Then redesigns EVERYTHING around those answers. Validates your communication strength. Breaks down tasks into realistic 20-30 min blocks. Becomes uniquely yours.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 2 -->
+                <div class="question-card">
+                    <div class="question-number">2</div>
+                    <div class="question-text">Which Roadmap Would You Actually Follow?</div>
+                    
+                    <div class="answer-section">
+                        <div class="answer-item loser">
+                            <div class="answer-label">❌ Non-Contextual <span class="score">6/10</span></div>
+                            <div class="answer-text">
+                                Looks amazing, but week-level structure is too vague. Says "spend 3 hours" but doesn't say HOW. No daily checklists. Assumes self-discipline. Good for motivated pros, hard for busy students.
+                            </div>
+                        </div>
+                        
+                        <div class="answer-item winner">
+                            <div class="answer-label">✅ Contextual <span class="score">9.5/10</span></div>
+                            <div class="answer-text">
+                                Day-by-day specificity: "Day 3-4: 30 minutes, do X, Y, Z." Progress bar fills as you complete tasks. Multiple project options (you choose). Celebrates milestones. Removes decision fatigue. Actually followable.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 3 -->
+                <div class="question-card">
+                    <div class="question-number">3</div>
+                    <div class="question-text">What Role Did Context Play?</div>
+                    
+                    <div class="answer-section">
+                        <div class="answer-item loser">
+                            <div class="answer-label">❌ Without Context</div>
+                            <div class="answer-text">
+                                → No way to know if 3 hours is realistic or if user has 10 hours
+                                → Can't adjust for "student needing portfolio" vs "pro needing business impact"
+                                → Can't leverage communication strength as advantage
+                                → Creates generic motivation ("become an expert") instead of specific wins
+                            </div>
+                        </div>
+                        
+                        <div class="answer-item winner">
+                            <div class="answer-label">✅ With Context</div>
+                            <div class="answer-text">
+                                → Knows: "3 hours/week" changes entire pacing
+                                → Knows: "Student" means daily structure matters
+                                → Knows: "Communication strength" is a superpower to leverage
+                                → Creates specific wins ("✅ WEEK 1 COMPLETE!") not generic goals
+                                → Changes time allocation, project types, language, encouragement
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- IMPACT TABLE -->
+        <div class="impact-section">
+            <h2 class="impact-title">The Context Impact Matrix</h2>
+            
+            <table class="impact-table">
+                <thead>
+                    <tr>
+                        <th>Dimension</th>
+                        <th>Without Context</th>
+                        <th>With Context</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Time Allocation</strong></td>
+                        <td class="non-context-col">"10-12 hours/week"</td>
+                        <td class="context-col">"Day 1: 20 min, Day 7: 60 min"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Project Focus</strong></td>
+                        <td class="non-context-col">All professional/ambitious</td>
+                        <td class="context-col">Portfolio OR Business (based on role)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Language Tone</strong></td>
+                        <td class="non-context-col">Professional/corporate</td>
+                        <td class="context-col">Student = encouraging, Pro = business-focused</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Daily Structure</strong></td>
+                        <td class="non-context-col">Week-level breakdown only</td>
+                        <td class="context-col">Detailed daily checklists</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Motivation Approach</strong></td>
+                        <td class="non-context-col">Ambition-driven ("become expert")</td>
+                        <td class="context-col">Win-driven ("✅ completed Day 1")</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Project Options</strong></td>
+                        <td class="non-context-col">One path for everyone</td>
+                        <td class="context-col">Multiple options (student picks)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Strength Validation</strong></td>
+                        <td class="non-context-col">Generic advice</td>
+                        <td class="context-col">"Your communication = superpower"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Completion Likelihood</strong></td>
+                        <td class="non-context-col">📊 60-70%</td>
+                        <td class="context-col">📊 85-95%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FOOTER SECTION -->
+        <div class="footer-section">
+            <h3 class="footer-title">The Real Lesson</h3>
+            <p class="footer-text">
+                <strong>Context doesn't just improve output—it completely transforms it.</strong> 
+                A roadmap designed for "a busy student with 3 hours/week" looks nothing like one for 
+                "a professional with 10 hours/week." Neither is better. The contextual one is just better 
+                <em>for that specific person</em>. That's the power of asking the right questions first.
+            </p>
+            
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="downloadImage()">📥 Download This Comparison</button>
+                <button class="btn btn-primary" onclick="shareLinkedIn()">📱 Share on LinkedIn</button>
+                <button class="btn btn-secondary" onclick="printPage()">🖨️ Print This Page</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadImage() {
+            html2canvas(document.body, {
+                backgroundColor: '#0f172a',
+                scale: 2
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL();
+                link.download = 'context-vs-noncontext-comparison.png';
+                link.click();
+            }).catch(err => {
+                alert('Install html2canvas library to download as image. For now, use screenshot!');
+            });
+        }
+
+        function shareLinkedIn() {
+            const text = `Just discovered: Context changes EVERYTHING in prompt engineering! 🎯\n\nCompared non-contextual vs contextual roadmaps:\n\n✅ With context: 9.5/10 personalization\n❌ Without context: 6/10\n\nIt's not about adding more info—it's about removing what doesn't apply & emphasizing what matters for YOUR situation.\n\nContext determines:\n→ Daily structure\n→ Time allocation  \n→ Motivation approach\n→ Project focus\n→ Completion likelihood\n\nThis principle applies WAY beyond roadmaps.\n\n#PromptEngineering #AI #Personalization #Learning`;
+            
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank');
+            alert('Share this text on LinkedIn:\n\n' + text);
+        }
+
+        function printPage() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
