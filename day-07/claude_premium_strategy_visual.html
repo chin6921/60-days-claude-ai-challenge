@@ -1,0 +1,128 @@
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #d4d4d4; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+.premium-container { background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%); padding: 3rem; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.hero-section { text-align: center; margin-bottom: 2.5rem; }
+.hero-section h1 { font-size: 42px; font-weight: 700; color: #000000; margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+.hero-section p { font-size: 18px; color: #333333; margin-bottom: 1.5rem; font-weight: 300; }
+.main-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 2.5rem; width: 100%; max-width: 1200px; }
+.premium-box { background: #1a472a; padding: 2rem; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.premium-box:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(0,0,0,0.25); }
+.box-number { display: inline-block; background: rgba(255,255,255,0.2); color: #ffffff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; margin-bottom: 1rem; }
+.box-title { font-size: 24px; font-weight: 600; color: #ffffff; margin-bottom: 0.8rem; }
+.box-content { font-size: 15px; color: rgba(255,255,255,0.95); line-height: 1.7; }
+.box-stat { font-size: 28px; font-weight: 700; color: #ffffff; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2); }
+.stat-label { font-size: 12px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem; }
+.premium-table { width: 100%; max-width: 1200px; margin-bottom: 2rem; }
+.table-header { background: #1a472a; padding: 1.5rem 2rem; border-radius: 8px 8px 0 0; display: grid; grid-template-columns: 2fr 1.5fr 1.5fr 2fr; gap: 1.5rem; color: #ffffff; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+.table-row { background: #f0f0f0; padding: 1.5rem 2rem; display: grid; grid-template-columns: 2fr 1.5fr 1.5fr 2fr; gap: 1.5rem; border-bottom: 1px solid #e0e0e0; align-items: center; font-size: 14px; color: #1a1a1a; }
+.table-row:hover { background: #efefef; }
+.table-row:last-child { border-bottom: none; border-radius: 0 0 8px 8px; }
+.badge { display: inline-block; background: #1a472a; color: #ffffff; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.effort-badge { background: #1a472a; }
+.footer-section { background: #1a472a; color: #ffffff; padding: 2rem; border-radius: 8px; text-align: center; width: 100%; max-width: 1200px; }
+.footer-section h3 { font-size: 20px; font-weight: 600; margin-bottom: 1rem; }
+.footer-section p { font-size: 15px; line-height: 1.8; margin-bottom: 0.5rem; }
+.feature-list { text-align: left; display: inline-block; margin-top: 1rem; }
+.feature-list li { list-style: none; padding: 0.5rem 0; font-size: 14px; }
+.feature-list li:before { content: "✓ "; color: #90EE90; font-weight: 700; margin-right: 0.5rem; }
+@media (max-width: 768px) {
+  .main-grid { grid-template-columns: 1fr; }
+  .premium-container { padding: 1.5rem; }
+  .table-header, .table-row { grid-template-columns: 1fr; gap: 1rem; }
+  .hero-section h1 { font-size: 32px; }
+}
+</style>
+
+<div class="premium-container">
+  <div class="hero-section">
+    <h1>Your Claude AI Strategy</h1>
+    <p>Professional optimization guide for maximum productivity</p>
+  </div>
+
+  <div class="main-grid">
+    <div class="premium-box">
+      <div class="box-number">1</div>
+      <div class="box-title">Recommended Model</div>
+      <div class="box-content">Claude Sonnet 4.6 is your ideal daily driver. It covers 100% of your use cases with the right balance of speed, capability, and cost-efficiency for your heavy-user workflow.</div>
+      <div class="box-stat">Sonnet 4.6</div>
+      <div class="stat-label">80% of Daily Use</div>
+    </div>
+
+    <div class="premium-box">
+      <div class="box-number">2</div>
+      <div class="box-title">Effort Level</div>
+      <div class="box-content">Use High Effort as your baseline for work that matters. It guarantees quality for portfolio, LinkedIn, and resume — the outputs that represent you professionally.</div>
+      <div class="box-stat">High</div>
+      <div class="stat-label">45% of Your Work</div>
+    </div>
+
+    <div class="premium-box">
+      <div class="box-number">3</div>
+      <div class="box-title">Cost Benefit</div>
+      <div class="box-content">Sonnet + High is cost-effective for heavy users while guaranteeing professional-grade outputs. Stop second-guessing settings and focus on shipping great work.</div>
+      <div class="box-stat">Save 40%</div>
+      <div class="stat-label">vs. Random Switching</div>
+    </div>
+
+    <div class="premium-box">
+      <div class="box-number">4</div>
+      <div class="box-title">Quick Win</div>
+      <div class="box-content">Your resume and LinkedIn content are job-search tools. Always use High effort minimum. This alone dramatically improves your professional materials quality.</div>
+      <div class="box-stat">78</div>
+      <div class="stat-label">ATS Score (Optimized)</div>
+    </div>
+  </div>
+
+  <div class="premium-table">
+    <div class="table-header">
+      <div>Task Type</div>
+      <div>Best Model</div>
+      <div>Effort</div>
+      <div>Strategy</div>
+    </div>
+    <div class="table-row">
+      <div>Syntax lookups</div>
+      <div><span class="badge">Haiku</span></div>
+      <div><span class="badge effort-badge">Standard</span></div>
+      <div>Speed over quality</div>
+    </div>
+    <div class="table-row">
+      <div>Portfolio projects</div>
+      <div><span class="badge">Sonnet</span></div>
+      <div><span class="badge effort-badge">High</span></div>
+      <div>Quality code for jobs</div>
+    </div>
+    <div class="table-row">
+      <div>LinkedIn content</div>
+      <div><span class="badge">Sonnet</span></div>
+      <div><span class="badge effort-badge">High</span></div>
+      <div>Represents your brand</div>
+    </div>
+    <div class="table-row">
+      <div>Resume optimization</div>
+      <div><span class="badge">Sonnet</span></div>
+      <div><span class="badge effort-badge">High</span></div>
+      <div>ATS scoring critical</div>
+    </div>
+    <div class="table-row">
+      <div>Career decisions</div>
+      <div><span class="badge">Opus</span></div>
+      <div><span class="badge effort-badge">High</span></div>
+      <div>Strategic thinking</div>
+    </div>
+  </div>
+
+  <div class="footer-section">
+    <h3>The Winning Formula</h3>
+    <p>If you implement ONE thing from this strategy, make it this:</p>
+    <p style="font-size: 18px; font-weight: 600; margin-top: 1rem; color: #90EE90;">Sonnet 4.6 + High Effort = Your Daily Baseline</p>
+    <ul class="feature-list">
+      <li>Covers 100% of your use cases</li>
+      <li>Guarantees professional-grade output</li>
+      <li>Cost-efficient for heavy users</li>
+      <li>Eliminates decision fatigue</li>
+      <li>Built for your workflow</li>
+    </ul>
+  </div>
+</div>
