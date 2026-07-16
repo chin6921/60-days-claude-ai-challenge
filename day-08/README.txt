@@ -1,81 +1,127 @@
-# 🚀 Day 8 – Building NutriScope with Claude
+# 🌍 Day 8 – Personal Environmental Health Analyzer with Claude
 
 ## 📌 Overview
 
-Today, I explored how Claude can generate a complete web application from detailed prompts. Using prompt engineering, I built **NutriScope**, a nutrition tracking application, and then enhanced it with additional features to create a more comprehensive user experience.
+Today, I explored how Claude can generate a complete interactive environmental health dashboard from a single detailed prompt. The goal was to build **Personal Environmental Health Analyzer**, a responsive web application that analyzes air and water quality, visualizes environmental data, and provides personalized health insights.
 
 ---
 
 ## 🎯 Objective
 
-- Build a functional nutrition tracking web application.
-- Explore iterative development using multiple prompts.
-- Enhance an existing application with advanced features.
-- Learn how structured prompts improve software development.
+- Build an interactive environmental health dashboard.
+- Analyze Air Quality Index (AQI) and water-quality data.
+- Visualize environmental trends through interactive charts.
+- Generate personalized environmental health recommendations.
+- Create a modern, responsive frontend application using a single prompt.
 
 ---
 
-## 📝 Prompt 1 – Build MVP
+## 📝 Features Implemented
 
-The first prompt focused on creating the Minimum Viable Product (MVP) of **NutriScope**.
-
-### Features Included
-
-- User Profile Inputs
-- Food Logging System
-- Food Database (20 Common Foods)
-- Nutrition Calculations
-- Daily Energy & Macro Tracking
-- Micronutrient Tracking
-- Interactive Dashboard
-- Personalized Food Recommendations
-- Premium Dark SaaS UI
-- Mobile Responsive Design
-- Chart.js Visualizations
-- Single HTML File (No Backend)
+### 📊 Environmental Dashboard
+- Average AQI
+- Highest AQI City
+- Lowest AQI City
+- Environmental Health Score
+- Number of Cities Analyzed
 
 ---
 
-## 📝 Prompt 2 – Application Enhancement
+### 📈 Interactive Visualizations
 
-The second prompt expanded the MVP by introducing more advanced functionality.
+- AQI Comparison Chart
+- PM2.5 Comparison Chart
+- PM10 Comparison Chart
+- City Ranking Chart
+- AQI Distribution Chart
 
-### Enhancements
+---
 
-- CSV Upload Support
-- Expanded Food Database (+40 Foods)
-- Additional Micronutrients
-- Two-Day Meal Planner
-- Nutrition Risk Analysis
-- Educational Disclaimer
-- Nutrition Information Sources
-- Advanced Charts
-- Smarter Personalized Recommendations
+### 🎛 Interactive Filters
+
+- City Selector
+- AQI Range Filter
+- Pollutant Selector
+- Health Risk Filter
+- Date Filter
+- City Comparison Mode
+
+---
+
+### 📋 City Health Cards
+
+Each city displays:
+
+- AQI
+- PM2.5
+- PM10
+- Air Quality Category
+- Air Quality Score
+- Water Quality Score
+
+---
+
+### 🌿 Environmental Health Analysis
+
+The application evaluates the environmental impact on:
+
+- Lung Health
+- Sleep Quality
+- Energy Levels
+- Exercise Performance
+- Long-Term Health
+- Hair Health
+- Skin Health
+- Water Quality Risks
+
+---
+
+### 📑 Personal Report Card
+
+- Environmental Health Score (0–100)
+- Air Quality Grade (A–F)
+- Water Quality Grade (A–F)
+- Hair Risk Assessment
+- Skin Risk Assessment
+
+---
+
+### 💡 Insights & Recommendations
+
+- Top 3 Cleanest Cities
+- Top 3 Most Polluted Cities
+- Environmental Trends
+- Anomaly Detection
+- Personalized Health Recommendations
+- Indoor & Outdoor Safety Tips
+- Hair & Skin Care Suggestions
 
 ---
 
 ## 🛠️ Skills Practiced
 
 - Prompt Engineering
-- Iterative Development
-- HTML
-- Responsive UI Design
-- Nutrition Application Design
-- AI-Assisted Software Development
+- Dashboard Design
+- Data Visualization
+- Environmental Data Analysis
+- Frontend Development
+- UI/UX Design
+- Responsive Web Development
 
 ---
 
 ## 💡 Key Learnings
 
-- Breaking development into multiple prompts improves project quality.
-- Detailed prompts produce more structured and feature-rich applications.
-- Claude can efficiently generate and enhance complete frontend applications.
-- Iterative prompting is an effective workflow for building complex software.
+- Detailed prompts can generate complete interactive applications.
+- Claude can combine data analysis with modern dashboard design.
+- Structured prompts improve both functionality and user experience.
+- AI can simplify the development of data-driven web applications.
+
 ---
 
 ## 🎯 Reflection
 
-This challenge demonstrated how prompt engineering can streamline software development. By progressively refining prompts, I transformed a basic MVP into a more capable and user-friendly nutrition tracking application without writing every line of code manually.
+This challenge demonstrated how prompt engineering can be used to build sophisticated, data-driven applications. By combining environmental analysis, interactive visualizations, and responsive UI design, Claude generated a professional dashboard capable of presenting complex environmental insights in an accessible and user-friendly format.
 
 ---
 
