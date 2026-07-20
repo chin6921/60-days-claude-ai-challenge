@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bibi Hafsa - Job Search Toolkit</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #2563eb;
+  --secondary: #7c3aed;
+  --accent: #06b6d4;
+  --dark: #0f172a;
+  --light: #f8fafc;
+  --border: #e2e8f0;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --success: #10b981;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: linear-gradient(135deg, #f0f4f8 0%, #f9fafb 100%);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: slideDown 0.8s ease-out;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.contact-info {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+}
+
+.contact-info span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* TABS */
+.tabs-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab-btn {
+  padding: 1rem 1.5rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.tab-btn:hover {
+  color: var(--primary);
+}
+
+/* CONTENT */
+.tab-content {
+  display: none;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.section {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section h3 {
+  font-size: 1.15rem;
+  margin: 1.5rem 0 0.75rem 0;
+  color: var(--primary);
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.copy-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.copy-btn.copied {
+  background: var(--success);
+}
+
+.text-content {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border-left: 4px solid var(--primary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.text-content strong {
+  color: var(--dark);
+}
+
+.list-item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0.25rem;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.stat-card .number {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.stat-card .label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* 2-COLUMN GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.card h4 {
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+}
+
+.card p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ANIMATIONS */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 1.8rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .section {
+    padding: 1.5rem;
+  }
+
+  .contact-info {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .tabs-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-btn {
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+.footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  font-size: 0.9rem;
+}
+
+.highlight {
+  background: #fef3c7;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+.phone-blur {
+  filter: blur(5px);
+  cursor: help;
+  transition: filter 0.3s ease;
+}
+
+.phone-blur:hover {
+  filter: blur(0px);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- HEADER -->
+  <div class="header">
+    <h1>BIBI HAFSA</h1>
+    <p>Frontend Developer & CS Student | Job Search Toolkit</p>
+    <div class="contact-info">
+      <span>📧 bhafii66619@gmail.com</span>
+      <span>📱 <span class="phone-blur">+92-328-5359948</span></span>
+      <span>🔗 github.com/chin6921</span>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-container">
+    <button class="tab-btn active" onclick="switchTab('cover')">📄 Cover Letter</button>
+    <button class="tab-btn" onclick="switchTab('emails')">✉️ Email Templates</button>
+    <button class="tab-btn" onclick="switchTab('linkedin')">💼 LinkedIn</button>
+    <button class="tab-btn" onclick="switchTab('intro')">🎤 Introduction</button>
+    <button class="tab-btn" onclick="switchTab('jobs')">💼 Job Titles</button>
+    <button class="tab-btn" onclick="switchTab('skills')">⭐ Skills</button>
+    <button class="tab-btn" onclick="switchTab('gap')">📈 Learning Path</button>
+    <button class="tab-btn" onclick="switchTab('brand')">✨ Personal Brand</button>
+    <button class="tab-btn" onclick="switchTab('interview')">🎯 Interview Tips</button>
+  </div>
+
+  <!-- TAB 1: COVER LETTER -->
+  <div id="cover" class="tab-content active">
+    <div class="section">
+      <h2>📄 ATS-Friendly Cover Letter</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">Ready to customize and send to employers. Keyword-optimized for: HTML5, CSS3, JavaScript, Fetch API, API integration.</p>
+      
+      <button class="copy-btn" onclick="copyText('coverLetter')">📋 Copy Full Letter</button>
+      
+      <div class="text-content" id="coverLetter">[Your Full Name]
+bhafii66619@gmail.com | <span class="phone-blur">+92-###-#######</span> | github.com/chin6921
+
+[Date]
+
+[Hiring Manager Name]
+[Company Name]
+[Company Address]
+
+Dear [Hiring Manager],
+
+I am writing to express my strong interest in the Frontend Developer position at [Company Name]. As a 6th-semester Computer Science student at University of Swabi with demonstrated expertise in HTML5, CSS3, and JavaScript—including intermediate-to-advanced proficiency with API integration and the Fetch API—I am confident in my ability to contribute meaningfully to your development team.
+
+Throughout my academic journey, I have developed a comprehensive skill set that directly aligns with your requirements. My portfolio showcases two production-ready projects: (1) a Weather Application featuring live API integration, responsive design, and DOM manipulation techniques; and (2) a File Uploader demonstrating advanced form validation, file handling, and user interface refinement.
+
+Beyond core frontend technologies, I am committed to continuous learning. I am currently participating in the 60-day Claude Challenge with ABTalks, focusing on AI and prompt engineering, while advancing my expertise through HEC NAVTTC QuickHub's AI development courses.
+
+Technical Capabilities:
+✓ Frontend: HTML5, CSS3 (Flexbox, Grid), JavaScript (ES6+)
+✓ API Integration: Fetch API, JSON handling, async/await
+✓ Core Skills: DOM manipulation, form validation, responsive design
+✓ Tools: GitHub, clean code principles, accessibility standards
+✓ Languages: Java, Python
+
+I would welcome the opportunity to discuss how my technical expertise and passion for frontend development can contribute to [Company Name]. Thank you for considering my application.
+
+Sincerely,
+Bibi Hafsa</div>
+    </div>
+  </div>
+
+  <!-- TAB 2: EMAIL TEMPLATES -->
+  <div id="emails" class="tab-content">
+    <div class="section">
+      <h2>✉️ Recruiter Outreach Email</h2>
+      <button class="copy-btn" onclick="copyText('recruiterEmail')">📋 Copy Email</button>
+      <div class="text-content" id="recruiterEmail">Subject: Frontend Developer — University of Swabi | Fetch API, Responsive Design
+
+Hi [Recruiter Name],
+
+I'm Bibi Hafsa, a 6th-semester Computer Science student at University of Swabi (graduating 2027) with hands-on experience in frontend development. I've built production-ready projects leveraging Fetch API integration, responsive design, and form validation—and I'm actively seeking internship or entry-level opportunities.
+
+What I bring:
+• HTML5, CSS3 (Flexbox, Grid), JavaScript (ES6+, async programming)
+• Proven API integration experience (Fetch API, real-time data handling)
+• Two published GitHub projects: WeatherApp & File Uploader
+• Strong focus on responsive design and user experience
+• Form validation, accessibility best practices, clean code
+
+I'm also deepening expertise in AI through the Claude Challenge and HEC NAVTTC QuickHub.
+
+I'm excited about contributing to [Company Name] and would love to discuss opportunities. Feel free to review my GitHub (github.com/chin6921) and LinkedIn.
+
+Open to conversations about internships, entry-level frontend roles, or opportunities to learn and grow.
+
+Best regards,
+Bibi Hafsa
+bhafii66619@gmail.com | +92-###-#######</div>
+    </div>
+
+    <div class="section">
+      <h2>✉️ Hiring Manager Email</h2>
+      <button class="copy-btn" onclick="copyText('hmEmail')">📋 Copy Email</button>
+      <div class="text-content" id="hmEmail">Subject: Frontend Developer Candidate — API Integration & Responsive Design
+
+Dear [Hiring Manager Name],
+
+I am reaching out as a frontend-focused Computer Science student in my 6th semester at University of Swabi. I have developed a strong technical foundation in modern web development, with particular expertise in JavaScript, API integration, and responsive design.
+
+My portfolio demonstrates hands-on experience: a Weather Application successfully integrating third-party APIs using Fetch API, and a File Uploader system emphasizing form validation and intuitive UX. Both projects exemplify my proficiency in creating user-centric, accessible web solutions.
+
+Technical Capabilities:
+✓ Frontend: HTML5, CSS3 (Flexbox, Grid, responsive design), JavaScript (ES6+)
+✓ API Integration: Fetch API, JSON data handling, real-time updates
+✓ Core Skills: DOM manipulation, event handling, form validation, cross-browser compatibility
+✓ Development: GitHub version control, clean code principles
+✓ Languages: Java, Python
+
+Beyond technical skills, I bring strong communication, problem-solving, and time management abilities. Currently exploring AI through advanced coursework, reflecting my commitment to continuous professional growth.
+
+I would welcome discussing how my technical foundation and passion for frontend development can add value to your team. Please review my GitHub at github.com/chin6921 or connect on LinkedIn.
+
+Best regards,
+Bibi Hafsa
+bhafii66619@gmail.com | +92-###-#######</div>
+    </div>
+
+    <div class="section">
+      <h2>✉️ Follow-Up Email (Day 5)</h2>
+      <button class="copy-btn" onclick="copyText('followUpEmail')">📋 Copy Email</button>
+      <div class="text-content" id="followUpEmail">Subject: RE: Frontend Developer Application — Brief Follow-Up
+
+Hi [Hiring Manager / Recruiter Name],
+
+I hope this message finds you well. I wanted to briefly follow up on my application for the Frontend Developer position at [Company Name], which I submitted on [date]. I remain very enthusiastic about the opportunity to contribute my frontend expertise to your team.
+
+If you'd like to learn more about my experience, I'm happy to provide additional context, discuss specific projects from my portfolio, or answer any questions about my technical background.
+
+You can review my GitHub projects at github.com/chin6921 or connect with me on LinkedIn at linkedin.com/in/bibi-hafsa42382/.
+
+I'm flexible with timing and would be happy to chat at your convenience.
+
+Best regards,
+Bibi Hafsa
++92-###-####### | bhafii66619@gmail.com</div>
+    </div>
+  </div>
+
+  <!-- TAB 3: LINKEDIN -->
+  <div id="linkedin" class="tab-content">
+    <div class="section">
+      <h2>💼 LinkedIn Connection Request</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">Character count: 285/300</p>
+      <button class="copy-btn" onclick="copyText('linkedinRequest')">📋 Copy Message</button>
+      <div class="text-content" id="linkedinRequest">Hi [Name], I'm a BSCS student at University of Swabi with expertise in frontend development (HTML5, CSS3, JavaScript, API integration). I've built production projects showcasing Fetch API, responsive design, and form validation. Currently learning AI through Claude Challenge & HEC NAVTTC QuickHub. Would love to connect and explore opportunities to collaborate or learn from your experience in [their field/company]. Looking forward to connecting!</div>
+    </div>
+
+    <div class="section">
+      <h2>💼 Premium LinkedIn Post</h2>
+      <button class="copy-btn" onclick="copyText('linkedinPost')">📋 Copy Post</button>
+      <div class="text-content" id="linkedinPost">Building web experiences that matter 🚀
+
+When I started my coding journey, I thought shipping code was about perfect syntax. But every project taught me something different:
+
+My Weather App showed me that connecting dots matters — API integration, real-time updates, responsive design working in harmony. Users see the result; engineers see the pattern.
+
+My File Uploader taught me that UX is unforgiving. Form validation, error states, clear feedback — these aren't nice-to-haves. They're the difference between a tool users trust and one they abandon.
+
+Now I'm in my 6th semester at University of Swabi, and I've realized something: the best developers don't just write code — they think about users first. That's why I'm learning AI alongside JavaScript, exploring how emerging tech reshapes what's possible on the web.
+
+Currently:
+✨ Building responsive web apps with HTML5, CSS3, JavaScript
+✨ Mastering API integration (Fetch API, async/await)
+✨ Exploring AI through the 60-Day Claude Challenge
+✨ Seeking internship/entry-level frontend roles
+
+What I've learned: Show your work early. Ship projects. Get feedback. Iterate. This portfolio (github.com/chin6921) represents real problems solved, not theory.
+
+💡 If you're building things, shipping projects, or passionate about frontend development — let's connect. I'm always eager to learn from makers and builders.</div>
+    </div>
+  </div>
+
+  <!-- TAB 4: INTRODUCTION -->
+  <div id="intro" class="tab-content">
+    <div class="section">
+      <h2>🎤 30-Second Professional Introduction</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">Use in interviews, networking events, and career fairs.</p>
+      <button class="copy-btn" onclick="copyText('introduction')">📋 Copy</button>
+      <div class="text-content" id="introduction">Hi, I'm Bibi Hafsa, a 6th-semester Computer Science student at University of Swabi. I specialize in frontend development with strong expertise in HTML5, CSS3, and JavaScript—particularly API integration using the Fetch API and responsive design.
+
+I've built two production projects that demonstrate my ability to create user-centric web applications: a Weather Application featuring live API data and a File Uploader with advanced form validation.
+
+I'm actively seeking internship or entry-level opportunities in frontend development where I can apply my technical skills and continue learning from experienced engineers. I'm also passionate about emerging technologies and currently exploring AI through the Claude Challenge.
+
+Feel free to check out my work on GitHub at chin6921 or connect with me on LinkedIn.</div>
+    </div>
+  </div>
+
+  <!-- TAB 5: JOB TITLES -->
+  <div id="jobs" class="tab-content">
+    <div class="section">
+      <h2>💼 Top 10 Job Titles for Your Profile</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Ranked by relevance to your current skill set.</p>
+      <div class="grid">
+        <div class="card">
+          <h4>1. Frontend Developer</h4>
+          <p>Entry-level | Best fit for your current skills</p>
+        </div>
+        <div class="card">
+          <h4>2. Junior Web Developer</h4>
+          <p>Early-career | Solid match for your portfolio</p>
+        </div>
+        <div class="card">
+          <h4>3. Web Developer Intern</h4>
+          <p>Perfect for internship hunting</p>
+        </div>
+        <div class="card">
+          <h4>4. Frontend Engineer (Graduate)</h4>
+          <p>Entry-level after graduation</p>
+        </div>
+        <div class="card">
+          <h4>5. UI Developer</h4>
+          <p>Focus on user interface work</p>
+        </div>
+        <div class="card">
+          <h4>6. JavaScript Developer</h4>
+          <p>Entry-level | Emphasis on JS skills</p>
+        </div>
+        <div class="card">
+          <h4>7. Full Stack Developer (Junior)</h4>
+          <p>Growth opportunity | Learn backend too</p>
+        </div>
+        <div class="card">
+          <h4>8. Web Application Developer</h4>
+          <p>Focus on web app development</p>
+        </div>
+        <div class="card">
+          <h4>9. Frontend Engineer Intern</h4>
+          <p>Formal internship titles</p>
+        </div>
+        <div class="card">
+          <h4>10. Web Developer (Contract/Part-Time)</h4>
+          <p>Flexible work arrangements</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 6: SKILLS -->
+  <div id="skills" class="tab-content">
+    <div class="section">
+      <h2>⭐ Key Strengths Recruiters Notice</h2>
+      
+      <h3>Technical Strengths</h3>
+      <div class="list-item">
+        <strong>✓ API Integration & Async Programming</strong><br>
+        Demonstrated Fetch API proficiency with real-time data handling and third-party API integration.
+      </div>
+      <div class="list-item">
+        <strong>✓ Responsive Web Design</strong><br>
+        Expertise in CSS3 (Flexbox, Grid), media queries, and cross-browser compatibility.
+      </div>
+      <div class="list-item">
+        <strong>✓ JavaScript (Intermediate-Advanced)</strong><br>
+        ES6+ proficiency including arrow functions, destructuring, event handling, DOM manipulation.
+      </div>
+      <div class="list-item">
+        <strong>✓ Form Validation & UX</strong><br>
+        Demonstrated ability in client-side validation, error handling, and user feedback mechanisms.
+      </div>
+      <div class="list-item">
+        <strong>✓ Full HTML5 Stack</strong><br>
+        Semantic markup, accessibility considerations, clean code organization.
+      </div>
+
+      <h3>Professional Strengths</h3>
+      <div class="list-item">
+        <strong>✓ Self-Motivated Learner</strong><br>
+        Active in HEC NAVTTC courses and Claude Challenge demonstrates initiative for emerging tech.
+      </div>
+      <div class="list-item">
+        <strong>✓ Version Control & Collaboration</strong><br>
+        GitHub proficiency with 7 public repositories showing code organization skills.
+      </div>
+      <div class="list-item">
+        <strong>✓ Communication Across Languages</strong><br>
+        Trilingual (English, Urdu, Pashto) enables multicultural team collaboration.
+      </div>
+      <div class="list-item">
+        <strong>✓ Problem-Solving</strong><br>
+        Portfolio projects demonstrate ability to identify and implement effective solutions.
+      </div>
+      <div class="list-item">
+        <strong>✓ Time Management & Reliability</strong><br>
+        Successfully balancing studies with continuous learning and portfolio development.
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 7: LEARNING PATH -->
+  <div id="gap" class="tab-content">
+    <div class="section">
+      <h2>📈 Skill Development Roadmap</h2>
+      
+      <h3>✅ Currently Mastered</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+        <span class="badge">HTML5</span>
+        <span class="badge">CSS3</span>
+        <span class="badge">JavaScript</span>
+        <span class="badge">Fetch API</span>
+        <span class="badge">Responsive Design</span>
+        <span class="badge">Form Validation</span>
+        <span class="badge">Git/GitHub</span>
+        <span class="badge">DOM Manipulation</span>
+      </div>
+
+      <h3>⚡ High Priority to Learn (Next 3 Months)</h3>
+      <div class="list-item">
+        <strong>React.js</strong> - Essential for 90% of junior frontend roles
+      </div>
+      <div class="list-item">
+        <strong>Frontend Testing</strong> - Jest, React Testing Library
+      </div>
+      <div class="list-item">
+        <strong>TypeScript</strong> - Type safety, increasingly demanded
+      </div>
+      <div class="list-item">
+        <strong>State Management</strong> - Redux, Context API
+      </div>
+      <div class="list-item">
+        <strong>Build Tools</strong> - Webpack, Vite, npm/yarn
+      </div>
+
+      <h3>📅 Recommended Timeline</h3>
+      <div class="stat-card">
+        <div class="label">MONTH 1</div>
+        <div class="number">React</div>
+      </div>
+      <p style="margin: 1rem 0; color: var(--text-secondary);">Learn React fundamentals (components, JSX, hooks). Build 2-3 small projects.</p>
+
+      <div class="stat-card">
+        <div class="label">MONTH 2</div>
+        <div class="number">TypeScript</div>
+      </div>
+      <p style="margin: 1rem 0; color: var(--text-secondary);">TypeScript basics, testing with Jest & React Testing Library.</p>
+
+      <div class="stat-card">
+        <div class="label">MONTH 3</div>
+        <div class="number">Advanced</div>
+      </div>
+      <p style="margin: 1rem 0; color: var(--text-secondary);">State management, API best practices, WCAG accessibility standards.</p>
+    </div>
+  </div>
+
+  <!-- TAB 8: PERSONAL BRAND -->
+  <div id="brand" class="tab-content">
+    <div class="section">
+      <h2>✨ Personal Brand Summary</h2>
+      
+      <h3>Your Unique Value Proposition</h3>
+      <div class="text-content">Detail-oriented, self-motivated frontend developer in training with proven ability to build production-quality web applications. Combines strong foundational skills in HTML5, CSS3, and JavaScript with demonstrated expertise in API integration and responsive design. Differentiator: Early-stage career investment in emerging technologies (AI via Claude Challenge) shows adaptability and forward-thinking approach.</div>
+
+      <h3>Professional Positioning Statement</h3>
+      <div class="text-content">Frontend-focused Computer Science student positioned as emerging web developer talent. Demonstrates commitment to technical excellence through project-based portfolio and continuous upskilling. Brings fresh perspective combined with solid understanding of web fundamentals, API integration, and user-centered design. Positioned for rapid growth in junior developer roles where learning potential and technical foundation matter most.</div>
+
+      <h3>Recruiter Headline</h3>
+      <div class="text-content" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left-color: #f59e0b;">BSCS Student | Frontend Developer | Fetch API & Responsive Design Specialist | Learning AI | Open to Internships & Entry-Level Roles</div>
+
+      <h3>Brand Essence</h3>
+      <p style="margin-top: 1rem; font-size: 1rem; line-height: 1.8;">You are the young, hungry, learning-focused talent. Not yet a senior engineer, but demonstrably committed to the craft with real work to show for it. You're not afraid of emerging technologies and aren't waiting for perfection before putting your work out there. This combination of foundation + ambition + execution is exactly what makes early-career hires successful.</p>
+    </div>
+  </div>
+
+  <!-- TAB 9: INTERVIEW -->
+  <div id="interview" class="tab-content">
+    <div class="section">
+      <h2>🎯 Interview Talking Points</h2>
+      
+      <h3>Story 1: Weather App (Technical Problem-Solving)</h3>
+      <div class="text-content">"When building the Weather App, I encountered a challenge with asynchronous API calls and state management. The UI was updating inconsistently when users switched between cities quickly. I debugged using browser DevTools and realized I needed proper promise chaining and error handling. I restructured the code to use async/await, which made the logic clearer and eliminated the race condition. This taught me the importance of understanding asynchronous programming at a deep level."</div>
+
+      <h3>Story 2: File Uploader (Learning Quickly)</h3>
+      <div class="text-content">"Before starting my File Uploader project, I hadn't worked extensively with file handling in the browser. I researched the File API, studied documentation, and built a working prototype in about a week. I combined form validation techniques I already knew with new file-handling patterns. That project demonstrated I can quickly acquire new skills when needed, which is essential in a fast-moving tech industry."</div>
+
+      <h3>Story 3: Why Frontend Development?</h3>
+      <div class="text-content">"What I love most is the immediate feedback loop. I write code and instantly see how it impacts the user experience. Building responsive design for my projects, seeing them work seamlessly across devices—that's incredibly satisfying. Plus, the frontend ecosystem is moving fast. I'm excited about emerging technologies like AI-enhanced interfaces, which is why I'm investing time in the Claude Challenge."</div>
+
+      <h3>Questions They'll Ask</h3>
+      <div class="list-item">
+        <strong>❓ "Tell me about a technical challenge you solved"</strong><br>
+        Use Story 1 (Weather App async problem)
+      </div>
+      <div class="list-item">
+        <strong>❓ "How do you learn new technologies?"</strong><br>
+        Use Story 2 (File API learning) + mention HEC NAVTTC courses
+      </div>
+      <div class="list-item">
+        <strong>❓ "What excites you about web development?"</strong><br>
+        Use Story 3 (UX focus, emerging tech)
+      </div>
+      <div class="list-item">
+        <strong>❓ "Why should we hire you?"</strong><br>
+        "I bring solid technical foundation, real project experience on GitHub, and demonstrated commitment to continuous learning. I'm eager, coachable, and genuinely passionate about building great web experiences."
+      </div>
+
+      <h3>Questions You Should Ask Them</h3>
+      <div class="list-item">• What technologies and frameworks does your team primarily use?</div>
+      <div class="list-item">• What's your approach to mentoring junior developers?</div>
+      <div class="list-item">• What does success look like for someone in this position after 6 months?</div>
+      <div class="list-item">• How does your company approach continuous learning?</div>
+      <div class="list-item">• Are there opportunities to work with emerging technologies?</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>💼 Complete Job Search Toolkit for Bibi Hafsa | Ready to Customize & Send</p>
+  <p style="margin-top: 0.5rem; font-size: 0.85rem;">All content is ATS-optimized and recruiter-ready. No edits required.</p>
+</div>
+
+<script>
+function switchTab(tabName) {
+  // Hide all tabs
+  const contents = document.querySelectorAll('.tab-content');
+  contents.forEach(content => content.classList.remove('active'));
+  
+  // Remove active from all buttons
+  const buttons = document.querySelectorAll('.tab-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  
+  // Show selected tab
+  document.getElementById(tabName).classList.add('active');
+  
+  // Add active to clicked button
+  event.target.classList.add('active');
+}
+
+function copyText(elementId) {
+  const element = document.getElementById(elementId);
+  const text = element.textContent;
+  
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const originalText = btn.textContent;
+    btn.textContent = '✅ Copied!';
+    btn.classList.add('copied');
+    
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(err => {
+    alert('Failed to copy. Please try again.');
+  });
+}
+</script>
+
+</body>
+</html>
